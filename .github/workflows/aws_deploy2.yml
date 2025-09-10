@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
       - name: Copiar arquivos para EC2
         uses: appleboy/scp-action@master
@@ -30,4 +32,5 @@ jobs:
           script: |
             cd /home/ubuntu/solicitacoes
             pip3 install -r requirements.txt
-            nohup streamlit run app.py --server.headless true &
+            pkill -f streamlit || true
+            nohup streamlit run app.py --server.headless true --server.port 8501 &
