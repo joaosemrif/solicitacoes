@@ -14,3 +14,28 @@ No seu repositório:
 
 3. Criar o workflow de deploy
 Crie o arquivo .github/workflows/deploy.yml com o seguinte conteúdo:
+
+
+=============================
+Opção 1: Deploy para EC2 via SSH
+Essa é a forma mais direta e parecida com o VPS:
+✅ Pré-requisitos
+- Uma instância EC2 rodando Linux com Python instalado
+- Chave SSH configurada
+- Git instalado na EC2
+- Seu repositório no GitHub
+🔐 Segurança
+- Gere uma chave SSH e adicione a pública na EC2 (~/.ssh/authorized_keys)
+- Adicione a chave privada como secret no GitHub (AWS_SSH_KEY)
+- Use appleboy/ssh-action para copiar e executar comandos remotamente
+
+Opção 2: Deploy com AWS CodeDeploy + IAM + OIDC
+Essa é mais robusta e segura, ideal para ambientes profissionais.
+✅ Pré-requisitos
+- Criar uma aplicação no AWS CodeDeploy
+- Configurar funções IAM para EC2 e CodeDeploy
+- Usar OIDC (OpenID Connect) para autenticação segura entre GitHub e AWS
+🔐 Segurança com OIDC
+- GitHub assume uma role temporária via token seguro
+- Sem necessidade de armazenar credenciais estáticas
+- Permissões finamente controladas via IA
