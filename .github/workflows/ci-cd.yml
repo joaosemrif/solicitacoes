@@ -1,0 +1,56 @@
+name: CI/CD Seguro - Streamlit App
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verificar segurança com Bandit
+        run: |
+          pip install bandit
+          bandit -r .
+
+      - name: Verificar dependências com Safety
+        run: |
+          pip install safety
+          safety check
+
+      - name: Rodar Streamlit (simulação)
+        run: |
+          streamlit run main.py --server.headless true
+
+
+## Deploy automático (opções)
+##Streamlit Cloud 
+##Basta conectar seu repositório no Streamlit Cloud
+## Toda vez que você fizer push na branch main, o app será atualizado automaticamente
+
+#Servidor VPS (via SSH)
+#Se quiser fazer deploy em um servidor próprio:
+
+   #   - name: Deploy via SSH
+    #    run: |
+    #      ssh -i ${{ secrets.SSH_KEY }} user@host "cd /caminho/app && git pull && systemctl restart streamlit"
+
+ #   Você precisará configurar:
+#- SSH_KEY como secret no GitHub
+#- Acesso ao servidor com permissões de deploy
