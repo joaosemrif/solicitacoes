@@ -1,0 +1,16 @@
+Etapas para configurar o deploy seguro no Azure
+1. Gerar o perfil de publicação (publish profile)
+No portal do Azure:
+- Vá até o seu recurso do App Service
+- No menu lateral, clique em "Perfil de publicação"
+- Baixe o arquivo .PublishSettings
+- Copie o conteúdo XML do arquivo
+
+2. Adicionar o publish profile como secret no GitHub
+No seu repositório:
+- Vá em Settings > Secrets and variables > Actions
+- Crie um novo secret chamado: AZURE_WEBAPP_PUBLISH_PROFILE
+- Cole o conteúdo do XML do publish profile
+
+3. Criar o workflow de deploy
+Crie o arquivo .github/workflows/deploy.yml com o seguinte conteúdo:
