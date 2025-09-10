@@ -1,0 +1,29 @@
+Deploy para AWS EC2 com GitHub Actions
+✅ Etapa 1: Preparar a instância EC2
+- Crie uma instância EC2 (Ubuntu é uma boa escolha)
+- Instale Python e Git:
+sudo apt update
+sudo apt install python3-pip git
+- Clone seu repositório:
+git clone https://github.com/joaosemrif/solicitacoes.git
+- Configure o ambiente:
+cd solicitacoes
+pip3 install -r requirements.txt
+
+
+Etapa 2: Configurar acesso seguro via SSH
+- Gere uma chave SSH no seu computador:
+ssh-keygen -t rsa -b 4096 -C "seu-email@example.com"
+- Adicione a chave pública (id_rsa.pub) à EC2:
+cat id_rsa.pub >> ~/.ssh/authorized_keys
+- No GitHub, vá em Settings > Secrets and variables > Actions e adicione:
+|  |  | 
+| AWS_SSH_KEY | id_rsa | 
+| EC2_HOST |  | 
+| EC2_USER | ubuntu | 
+
+
+ Etapa 3: Criar o workflow de deplo
+
+
+
